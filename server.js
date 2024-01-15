@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const allowedOrigins = ["https://thriving-meringue-d61910.netlify.app/"];
+const allowedOrigins = [process.env.URL];
 
 app.use(
   cors({
@@ -26,18 +26,18 @@ const port = process.env.port || 3000;
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "feedback.lavogiamatta@gmail.com",
-    pass: "wjiz kamk uqgy sxaw",
+    user: process.env.USER,
+    pass: process.env.PASS,
   },
 });
 
 app.post("/mail", (req, res) => {
   const mailOptions = {
-    from: "your-email@gmail.com",
-    to: "grigzaqaryan85@gmail.com",
-    subject: "Hello ✔",
-    text: "Hello world?",
-    html: "<b>Hello world?</b>",
+    from: process.env.USER,
+    to: process.env.RECEIVER,
+    subject: "Feedback",
+    text: `From: ${req.body.name} ${req.body.lastname}`,
+    html: `Feedback : ${req.body.feedback}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
