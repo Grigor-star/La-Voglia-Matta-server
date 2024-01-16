@@ -26,7 +26,7 @@ app.post("/mail", (req, res) => {
     to: process.env.RECEIVER,
     subject: "Feedback",
     text: `From: ${req.body.name} ${req.body.lastname}`,
-    html: `Feedback : ${req.body}`,
+    html: `From: ${req.body.name} ${req.body.lastname}<br/><br/>Feedback : ${req.body.feedback}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
