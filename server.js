@@ -7,18 +7,7 @@ const app = express();
 
 const allowedOrigins = [process.env.URL];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Check if the request comes from an allowed origin
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 
 const port = process.env.port || 3000;
@@ -37,7 +26,7 @@ app.post("/mail", (req, res) => {
     to: process.env.RECEIVER,
     subject: "Feedback",
     text: `From: ${req.body.name} ${req.body.lastname}`,
-    html: `Feedback : ${req.body.feedback}`,
+    html: `Feedback : ${req.body}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
